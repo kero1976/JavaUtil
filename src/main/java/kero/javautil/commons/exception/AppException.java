@@ -11,6 +11,11 @@ public abstract class AppException extends Exception {
 
   public abstract String getUserMessage();
 
+  /**
+   * 開発者向けに例外の内容を返す.
+   *
+   * @return 開発者向けの内容
+   */
   public String getDeveloperMessage() {
     StringBuilder buff = new StringBuilder();
     buff.append("ユーザーメッセージ：").append(getUserMessage()).append(System.lineSeparator());
@@ -23,9 +28,9 @@ public abstract class AppException extends Exception {
   }
 
   /**
-   * スタックトレース出力 最初に発生した例外(getOriginalException)があればそのスタックトレースを出力 なければ自身のスタックトレースを出力
-   * 
-   * @return
+   * スタックトレース出力 最初に発生した例外(getOriginalException)があればそのスタックトレースを出力 なければ自身のスタックトレースを出力.
+   *
+   * @return スタックトレース
    */
   private String getStackTraceString() {
     Exception e = getOriginalException();

@@ -3,7 +3,7 @@ package kero.javautil.commons.exception;
 import java.nio.file.Path;
 
 /**
- * アプリケーション例外（ファイルIO）
+ * アプリケーション例外（ファイルIO）.
  *
  */
 public class AppFileIOException extends AppException {
@@ -47,7 +47,8 @@ public class AppFileIOException extends AppException {
   }
 
   /**
-   * コンストラクタ
+   * コンストラクタ.
+   *
    * @param target ターゲット。何が発生したのか
    * @param kind 種別。なぜ発生したのか
    * @param path ファイルパス

@@ -41,8 +41,8 @@ public class TestException extends AppException {
   }
 
   /**
-   * コンストラクタ
-   * 
+   * コンストラクタ.
+   *
    * @param target ターゲット。何が発生したのか
    * @param kind 種別。なぜ発生したのか
    * @param path ファイルパス

@@ -10,9 +10,13 @@ import kero.javautil.commons.exception.AppFileIOException.TARGET;
 
 public class DirUtil {
 
-  // 指定したフォルダを削除する
 
-  // 指定したパスに該当するフォルダを複数削除する
+  /**
+   * 指定したディレクトリを空にする.
+   *
+   * @param directory 空にするディレクトリ
+   * @throws AppFileIOException あとで書く
+   */
   public static void cleanDirectory(String directory) throws AppFileIOException {
     try {
       FileUtils.cleanDirectory(new File(directory));
