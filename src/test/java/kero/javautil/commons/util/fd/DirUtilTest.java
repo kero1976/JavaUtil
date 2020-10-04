@@ -2,8 +2,11 @@ package kero.javautil.commons.util.fd;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.File;
+
 import org.junit.jupiter.api.Test;
+
 import kero.javautil.commons.TestBase;
 import kero.javautil.commons.exception.AppFileIOException;
 import kero.javautil.commons.exception.TestException;
@@ -54,5 +57,10 @@ public class DirUtilTest extends TestBase {
     }
   }
 
+  @Test
+  void sampleTest() {
+	  DirUtil dir = new DirUtil();
+	  dir.sample(1);
+  }
 
 }

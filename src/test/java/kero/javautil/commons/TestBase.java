@@ -1,8 +1,10 @@
 package kero.javautil.commons;
 
 import java.io.File;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
+
 import kero.javautil.commons.exception.TestException;
 import kero.javautil.commons.exception.TestException.KIND;
 import kero.javautil.commons.exception.TestException.TARGET;
@@ -13,7 +15,7 @@ public abstract class TestBase {
 
   @BeforeEach
   void setUp() throws Exception {
-    File workDir = new File("./");
+    File workDir = new File("../work");
     FileUtils.cleanDirectory(workDir);
   }
 

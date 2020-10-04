@@ -41,4 +41,17 @@ public class DirUtil {
     }
   }
 
+  public void sample(int i) {
+	  System.out.println("START");
+	  if(i == 1) {
+		  System.out.println("1");
+	  }
+	  if(i == 2) {
+		  System.out.println("2");
+	  }
+	  if(i == 3) {
+		  System.out.println("3");
+	  }
+	  System.out.println("END");
+  }
 }
