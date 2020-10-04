@@ -45,7 +45,6 @@ public class TestException extends AppException {
    *
    * @param target ターゲット。何が発生したのか
    * @param kind 種別。なぜ発生したのか
-   * @param path ファイルパス
    * @param e 内部例外
    */
   public TestException(TARGET target, KIND kind, String dir, Exception e) {
