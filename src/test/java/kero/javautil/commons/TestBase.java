@@ -13,7 +13,8 @@ public abstract class TestBase {
 
   @BeforeEach
   void setUp() throws Exception {
-
+    File workDir = new File("./");
+    FileUtils.cleanDirectory(workDir);
   }
 
   protected abstract String setTestDir();
