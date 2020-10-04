@@ -29,6 +29,7 @@
 				<version>2.22.1</version>
 				<configuration>
 					<workingDirectory>${project.basedir}/work</workingDirectory>
+					<argLine>-Xmx256m ${jacocoArgs}</argLine>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -100,7 +101,7 @@
 			</plugin>
 
 			<plugin>
-			<!-- SpotBugs(旧名FindBugs) -->
+				<!-- SpotBugs(旧名FindBugs) -->
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
 				<version>3.1.11</version>
@@ -128,6 +129,28 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<!-- カバレッジ取得 -->
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.3</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<propertyName>jacocoArgs</propertyName>
+							<includes>
+								<include>*</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 
 
@@ -136,15 +159,9 @@
 	</build>
 
 	<dependencies>
-	<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-all -->
-	<!--
-<dependency>
-    <groupId>org.hamcrest</groupId>
-    <artifactId>hamcrest-all</artifactId>
-    <version>1.3</version>
-    <scope>test</scope>
-</dependency>
--->
+		<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-all -->
+		<!-- <dependency> <groupId>org.hamcrest</groupId> <artifactId>hamcrest-all</artifactId>
+			<version>1.3</version> <scope>test</scope> </dependency> -->
 		<dependency>
 			<!-- JUnit用 -->
 			<groupId>org.junit.jupiter</groupId>
@@ -161,12 +178,12 @@
 		</dependency>
 
 
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>3.11.1</version>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.11.1</version>
+			<scope>test</scope>
+		</dependency>
 
 
 		<dependency>
