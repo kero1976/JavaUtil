@@ -86,7 +86,7 @@ public class DirUtilTest extends TestBase {
 
     try {
       // 実行
-      DirUtil.cleanDirectory("test");
+      DirUtil.cleanDirectory("存在しないフォルダ");
 
       // 存在しないパスを指定する
       fail();
@@ -103,30 +103,13 @@ public class DirUtilTest extends TestBase {
     copy("data2");
     assertThat(new File("./test/test2")).exists();
     assertThat(new File("./test/a")).exists();
-
-    // File lockFile = new File("./test/test2/b");
-    // try (FileChannel fc = FileChannel.open(lockFile.toPath(), StandardOpenOption.READ,
-    // StandardOpenOption.WRITE);
-    // FileLock lock = fc.lock()) {
-    // try {
-    // // 実行
-    // DirUtil.cleanDirectory("test");
-    //
-    // // 例外が発生する
-    // fail();
-    // } catch (AppFileIOException e) {
-    // assertThat(e.getUserMessage()).startsWith("TARGET:DIR,KIND:DELETE_ERROR");
-    // }
-    // }catch(Exception e) {
-    // fail();
-    // }
-
     File file = new File("./test/test2/b");
     try {
       try (BufferedReader br = new BufferedReader(new FileReader(file))) {
         String text;
         while ((text = br.readLine()) != null) {
           try {
+            // 開いているファイルがあるので例外が発生する
             DirUtil.cleanDirectory("test");
             fail();
           } catch (AppFileIOException e) {
@@ -137,7 +120,110 @@ public class DirUtilTest extends TestBase {
     } catch (Exception e) {
       fail();
     }
+  }
 
+
+
+  @Test
+  @Tag("deleteDirectory")
+  void deleteDirectoryテスト_正常系_フォルダ以下空() throws TestException {
+
+    // 事前準備。testフォルダをコピー。テストフォルダ以下は空
+    copy("data1");
+
+    try {
+      // 実行
+      DirUtil.cleanDirectory("test");
+
+      // 削除するものが無くてもエラーにならない
+      assertThat(new File("./test")).exists();
+    } catch (AppFileIOException e) {
+      fail();
+    }
+  }
+
+  @Test
+  @Tag("deleteDirectory")
+  void deleteDirectoryテスト_正常系_フォルダ以下にファイルとフォルダが存在() throws TestException {
+
+    // 事前準備。testフォルダをコピー。テストフォルダ以下にはファイルとサブフォルダが存在する。
+    copy("data2");
+    assertThat(new File("./test/test2")).exists();
+    assertThat(new File("./test/a")).exists();
+
+    try {
+      // 実行
+      DirUtil.deleteDirectory("test");
+
+      // 実行後はファイルとフォルダが存在しない
+      assertThat(new File("./test/test2")).doesNotExist();
+      assertThat(new File("./test/a")).doesNotExist();
+      // 指定したフォルダも削除される
+      assertThat(new File("./test")).doesNotExist();
+    } catch (AppFileIOException e) {
+      fail();
+    }
+  }
+
+  @Test
+  @Tag("deleteDirectory")
+  void deleteDirectoryテスト_異常系_指定したパスがファイル() throws TestException {
+
+    // 事前準備。testファイルをコピー
+    copy("data3");
+
+    try {
+      // 実行
+      DirUtil.deleteDirectory("test");
+
+      // ファイルを指定しているので例外が発生するはず
+      fail();
+    } catch (AppFileIOException e) {
+      assertThat(e.getUserMessage()).startsWith("TARGET:DIR,KIND:DELETE_ERROR");
+    }
+  }
+
+  @Test
+  @Tag("deleteDirectory")
+  void deleteDirectoryテスト_異常系_指定したパスが見つからない() throws TestException {
+
+    // 事前準備。なし。
+
+    try {
+      // 実行
+      DirUtil.deleteDirectory("存在しないフォルダ");
+
+      // 指定したフォルダが存在しないので成功
+    } catch (AppFileIOException e) {
+      fail();
+    }
+  }
+
+  @Test
+  @Tag("deleteDirectory")
+  void deleteDirectoryテスト_異常系_ファイルロック() throws TestException {
+
+    // 事前準備。testフォルダをコピー。テストフォルダ以下にはファイルとサブフォルダが存在する。
+    copy("data2");
+    assertThat(new File("./test/test2")).exists();
+    assertThat(new File("./test/a")).exists();
+    File file = new File("./test/test2/b");
+    try {
+      try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        String text;
+        while ((text = br.readLine()) != null) {
+          try {
+            // 開いているファイルがあるので例外が発生する
+            DirUtil.deleteDirectory("test");
+            fail();
+          } catch (AppFileIOException e) {
+            assertThat(e.getUserMessage()).startsWith("TARGET:DIR,KIND:DELETE_ERROR");
+          }
+        }
+      }
+    } catch (Exception e) {
+      fail();
+    }
   }
 
 }
