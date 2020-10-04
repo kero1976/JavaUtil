@@ -69,4 +69,32 @@ public class DirUtil {
           Paths.get(destDir), e);
     }
   }
+
+  /**
+   * ディレクトリ内のファイルorフォルダを別のディレクトリに移動します.
+   *
+   * 例) 「DirA」フォルダの下に「Sub」フォルダと「File1」ファイルが存在する場合に、移動するディレクトリを
+   * 「DirA」、移動先を「DirB」を指定すると、「DirB/Sub」と「DirB/File1」ができます。「DirA」フォルダは残ります。
+   *
+   * @param srcDir 移動するディレクトリ
+   * @param destDir 移動先のディレクトリ
+   * @param createDestDir true:移動先のディレクトリを作成, false:作成しないで例外を返す
+   * @throws AppFileIOException 移動元のディレクトリが存在しない
+   */
+  public static void moveFilesToDirectory(String srcDir, String destDir, boolean createDestDir)
+      throws AppFileIOException {
+    try {
+      File file = new File(srcDir);
+      File[] list = file.listFiles();
+      for (int i = 0; i < list.length; i++) {
+        FileUtils.moveDirectoryToDirectory(list[i], new File(destDir), createDestDir);
+      }
+    } catch (IOException e) {
+      throw new AppFileIOException(TARGET.DIR, KIND.MOVE_ERROR, Paths.get(srcDir),
+          Paths.get(destDir), e);
+    } catch (Exception e) {
+      throw new AppFileIOException(TARGET.DIR, KIND.MOVE_ERROR, Paths.get(srcDir),
+          Paths.get(destDir), e);
+    }
+  }
 }

@@ -312,5 +312,28 @@ public class DirUtilTest extends TestBase {
   }
 
 
+  @Test
+  @Tag("moveFilesToDirectory")
+  void moveFilesToDirectoryテスト_正常系_既存フォルダにコピー() throws TestException {
+
+    // 事前準備。testフォルダをコピー。テストフォルダ以下は空
+    copy("data4");
+    assertThat(new File("./foo/A")).exists();
+    assertThat(new File("./foo/B")).exists();
+
+    try {
+      // 実行
+      DirUtil.moveFilesToDirectory("foo", "既存フォルダ", false);
+
+      // fooフォルダがなくなり、「foo/A」、「foo/B」は「既存フォルダ/A」、「既存フォルダ/B」に移動’
+      assertThat(new File("./foo/A")).doesNotExist();
+      assertThat(new File("./foo/B")).doesNotExist();
+      assertThat(new File("./既存フォルダ/A")).exists();
+      assertThat(new File("./既存フォルダ/B")).exists();
+    } catch (AppFileIOException e) {
+      fail();
+    }
+  }
+
 
 }
