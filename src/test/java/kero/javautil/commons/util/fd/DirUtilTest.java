@@ -226,4 +226,91 @@ public class DirUtilTest extends TestBase {
     }
   }
 
+
+
+  @Test
+  @Tag("moveDirectoryToDirectory")
+  void moveDirectoryToDirectoryテスト_正常系_既存フォルダにコピー() throws TestException {
+
+    // 事前準備。testフォルダをコピー。テストフォルダ以下は空
+    copy("data4");
+    assertThat(new File("./foo/A")).exists();
+    assertThat(new File("./foo/B")).exists();
+
+    try {
+      // 実行
+      DirUtil.moveDirectoryToDirectory("foo", "既存フォルダ", false);
+
+      // fooフォルダがなくなり、「foo/A」、「foo/B」は「既存フォルダ/foo/A」、「既存フォルダ/foo/B」に移動’
+      assertThat(new File("./foo/A")).doesNotExist();
+      assertThat(new File("./foo/B")).doesNotExist();
+      assertThat(new File("./既存フォルダ/foo/A")).exists();
+      assertThat(new File("./既存フォルダ/foo/B")).exists();
+    } catch (AppFileIOException e) {
+      fail();
+    }
+  }
+
+  @Test
+  @Tag("moveDirectoryToDirectory")
+  void moveDirectoryToDirectoryテスト_異常系_指定したパスがファイル() throws TestException {
+
+    // 事前準備。testファイルをコピー
+    copy("data3");
+
+    try {
+      // 実行
+      DirUtil.moveDirectoryToDirectory("test", "新規フォルダ", true);
+
+      // ファイルを指定しているので例外が発生するはず
+      fail();
+    } catch (AppFileIOException e) {
+      assertThat(e.getUserMessage()).startsWith("TARGET:DIR,KIND:MOVE_ERROR");
+    }
+  }
+
+  @Test
+  @Tag("moveDirectoryToDirectory")
+  void moveDirectoryToDirectoryテスト_異常系_指定したパスが見つからない() throws TestException {
+
+    // 事前準備。なし。
+
+    try {
+      // 実行
+      DirUtil.moveDirectoryToDirectory("存在しないフォルダ", "新規フォルダ", true);
+      // 存在しないパスを指定する
+      fail();
+    } catch (AppFileIOException e) {
+      assertThat(e.getUserMessage()).startsWith("TARGET:DIR,KIND:MOVE_ERROR");
+    }
+  }
+
+  @Test
+  @Tag("moveDirectoryToDirectory")
+  void moveDirectoryToDirectoryテスト_異常系_ファイルロック() throws TestException {
+
+    // 事前準備。testフォルダをコピー。テストフォルダ以下にはファイルとサブフォルダが存在する。
+    copy("data4");
+
+    File file = new File("./foo/A/A1");
+    try {
+      try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        String text;
+        while ((text = br.readLine()) != null) {
+          try {
+            // 開いているファイルがあるので例外が発生する
+            DirUtil.moveDirectoryToDirectory("foo", "新規フォルダ", true);
+            fail();
+          } catch (AppFileIOException e) {
+            assertThat(e.getUserMessage()).startsWith("TARGET:DIR,KIND:MOVE_ERROR");
+          }
+        }
+      }
+    } catch (Exception e) {
+      fail();
+    }
+  }
+
+
+
 }

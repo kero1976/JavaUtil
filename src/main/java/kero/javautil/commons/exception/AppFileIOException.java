@@ -72,7 +72,8 @@ public class AppFileIOException extends AppException {
    *
    * @param target ターゲット。何が発生したのか
    * @param kind 種別。なぜ発生したのか
-   * @param path ファイルパス
+   * @param path1 ファイルパス
+   * @param path2 ファイルパス
    * @param e 内部例外
    */
   public AppFileIOException(TARGET target, KIND kind, Path path1, Path path2, Exception e) {
