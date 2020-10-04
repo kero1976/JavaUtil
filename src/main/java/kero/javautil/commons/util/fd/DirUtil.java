@@ -84,10 +84,11 @@ public class DirUtil {
   public static void moveFilesToDirectory(String srcDir, String destDir, boolean createDestDir)
       throws AppFileIOException {
     try {
-      File file = new File(srcDir);
-      File[] list = file.listFiles();
-      for (int i = 0; i < list.length; i++) {
-        FileUtils.moveDirectoryToDirectory(list[i], new File(destDir), createDestDir);
+      File[] list = new File(srcDir).listFiles();
+      if (list != null) {
+        for (int i = 0; i < list.length; i++) {
+          FileUtils.moveDirectoryToDirectory(list[i], new File(destDir), createDestDir);
+        }
       }
     } catch (IOException e) {
       throw new AppFileIOException(TARGET.DIR, KIND.MOVE_ERROR, Paths.get(srcDir),
