@@ -39,7 +39,7 @@ public class AppFileIOException extends AppException {
   @Override
   public String getUserMessage() {
     StringBuilder buff = new StringBuilder();
-    buff.append("TARGET:").append(target).append(System.lineSeparator());
+    buff.append("TARGET:").append(target).append(",");
     buff.append("KIND:").append(kind).append(System.lineSeparator());
     buff.append("PATH:").append(path).append(System.lineSeparator());
 
