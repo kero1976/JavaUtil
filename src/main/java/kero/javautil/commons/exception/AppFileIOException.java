@@ -2,6 +2,10 @@ package kero.javautil.commons.exception;
 
 import java.nio.file.Path;
 
+/**
+ * アプリケーション例外（ファイルIO）
+ *
+ */
 public class AppFileIOException extends AppException {
 
   public static enum TARGET {
@@ -34,10 +38,21 @@ public class AppFileIOException extends AppException {
 
   @Override
   public String getUserMessage() {
-    // TODO 自動生成されたメソッド・スタブ
-    return null;
+    StringBuilder buff = new StringBuilder();
+    buff.append("TARGET:").append(target).append(System.lineSeparator());
+    buff.append("KIND:").append(kind).append(System.lineSeparator());
+    buff.append("PATH:").append(path).append(System.lineSeparator());
+
+    return buff.toString();
   }
 
+  /**
+   * コンストラクタ
+   * @param target ターゲット。何が発生したのか
+   * @param kind 種別。なぜ発生したのか
+   * @param path ファイルパス
+   * @param e 内部例外
+   */
   public AppFileIOException(TARGET target, KIND kind, Path path, Exception e) {
     this.target = target;
     this.kind = kind;
