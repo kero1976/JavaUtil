@@ -30,6 +30,17 @@
 				<configuration>
 					<workingDirectory>${project.basedir}/work</workingDirectory>
 					<argLine>-Xmx256m ${jacocoArgs}</argLine>
+					<!--
+					テスト対象
+										<groups>cleanDirectory</groups>
+					 -->
+					 <groups>B</groups>
+					 <excludedGroups>A</excludedGroups>
+<!--
+テスト対象外
+<excludedGroups></excludedGroups>
+ -->
+
 				</configuration>
 			</plugin>
 			<plugin>
