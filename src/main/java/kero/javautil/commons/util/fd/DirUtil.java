@@ -98,4 +98,14 @@ public class DirUtil {
           Paths.get(destDir), e);
     }
   }
+
+  /**
+   * 指定したフォルダ直下にあるファイルの数を数える。（サブフォルダはカウント対象外）
+   *
+   * @param dir
+   * @return
+   */
+  public static int fileCount(String dir) {
+    return 0;
+  }
 }
